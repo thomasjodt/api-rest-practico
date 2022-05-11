@@ -1,0 +1,23 @@
+{
+  "name": "api-rest-practico",
+  "version": "1.0.0",
+  "description": "Curso Práctico de Consumo de API REST",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasjodt/api-rest-practico.git"
+  },
+  "keywords": [],
+  "author": "Orlando Díaz <jodt5200@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thomasjodt/api-rest-practico/issues"
+  },
+  "homepage": "https://github.com/thomasjodt/api-rest-practico#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
