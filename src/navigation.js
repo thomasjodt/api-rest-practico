@@ -12,7 +12,10 @@ function navigator() {
   location.hash.startsWith('#search=')    ?  searchPage()       :
   location.hash.startsWith('#movie=')     ?  movieDetailsPage() :
   location.hash.startsWith('#category=')  ?  categoriesPage()   :
-  homePage() 
+  homePage()
+
+  document.documentElement.scrollTop = 0
+  document.body.scrollTop = 0
 }
 
 function homePage() {
@@ -41,14 +44,22 @@ function categoriesPage() {
   // headerSection.style.background = ''
   arrowBtn.classList.remove('inactive')
   arrowBtn.classList.remove('header-arrow--white')
-  headerCategoryTitle.classList.add('inactive')
+  headerCategoryTitle.classList.remove('inactive')
   headerTitle.classList.add('inactive')
   searchForm.classList.add('inactive')
 
   trendingPreviewSection.classList.add('inactive')
   categoriesPreviewSection.classList.add('inactive')
-  genericSection.classList.add('inactive')
-  movieDetailSection.classList.remove('inactive')
+  genericSection.classList.remove('inactive')
+  movieDetailSection.classList.add('inactive')
+
+  const [ _, categoryData ] = location.hash.split('=')
+  const [id, name] = categoryData.split('-')
+  const newName = decodeURI(name)
+  headerCategoryTitle.innerText = newName
+
+  getMoviesByCategory(id)
+
 }
 function trendsPage() {
   console.log('Trends!!')
@@ -65,6 +76,8 @@ function trendsPage() {
   categoriesPreviewSection.classList.add('inactive')
   genericSection.classList.remove('inactive')
   movieDetailSection.classList.add('inactive')
+
+  headerCategoryTitle.innerText = 'Trending'
 }
 function searchPage() {
   console.log('Search!!!')
@@ -81,6 +94,8 @@ function searchPage() {
   categoriesPreviewSection.classList.add('inactive')
   genericSection.classList.remove('inactive')
   movieDetailSection.classList.add('inactive')
+
+  headerCategoryTitle.innerText = 'Search movie'
 }
 function movieDetailsPage() {
   console.log('Movie Details!!!')
