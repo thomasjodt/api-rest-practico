@@ -14,6 +14,7 @@ const createMovies = (movies, container) => {
 
     const movieContainer = document.createElement('div')
     movieContainer.classList.add('movie-container')
+    movieContainer.addEventListener('click', () => location.hash = `movie=${movie.id}`)
 
     const movieImg = document.createElement('img')
     movieImg.classList.add('movie-img')
@@ -74,4 +75,48 @@ async function getMoviesByCategory(id) {
     createMovies(movies, genericSection)
   }
   catch (error) { console.error('Error: ', error) }
+}
+async function getMoviesBySearch(query) {
+  try {
+    const { data }  = await api('/search/movie', {
+      params: { query }
+    })
+    const movies    = data.results
+
+    createMovies(movies, genericSection)
+  }
+  catch (error) { console.error('Error: ', error) }
+}
+async function getTrendingMovies() {
+  try {
+    const { data }  = await api('/trending/movie/day')
+    const movies    = data.results
+
+    createMovies(movies, genericSection)
+  }
+  catch (error) { console.error('Error: ', error) }
+}
+async function getMovieById(id) {
+  try {
+    const { data: movie }  = await api('/movie/' + id)
+
+    const movieImgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+    console.log(movieImgUrl)
+    headerSection.style.backgroundImage = `linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%), url(${movieImgUrl})`
+
+    movieDetailTitle.textContent = movie.title
+    movieDetailDescription.textContent = movie.overview
+    movieDetailScore.textContent = movie.vote_average
+
+    createCategories(movie.genres, movieDetailCategoriesList)
+
+    getRelatedMoviesById(id)
+  }
+  catch (error) { console.error('Error: ', error) }
+}
+async function getRelatedMoviesById(id) {
+  const { data } = await api(`/movie/${id}/similar`)
+  const relatedMovies = data.results
+
+  createMovies(relatedMovies, relatedMoviesContainer)
 }
